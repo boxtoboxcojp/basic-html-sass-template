@@ -1,35 +1,71 @@
 // min-width
 $breakpoint-up: (
-  'xs': 'screen and (min-width: 330px)',
-  'sm': 'screen and (min-width: 576px)',
-  'md': 'screen and (min-width: 769px)',
-  'lg': 'screen and (min-width: 992px)',
+  'sm': 'screen and (min-width: 480px)',
+  'md': 'screen and (min-width: 960px)',
+  'lg': 'screen and (min-width: 1048px)',
   'xl': 'screen and (min-width: 1200px)',
 ) !default;
 
 // max-width
 $breakpoint-down: (
-  'xs': 'screen and (max-width: 329px)',
-  'sm': 'screen and (max-width: 575px)',
-  'md': 'screen and (max-width: 768px)',
-  'lg': 'screen and (max-width: 991px)',
+  'sm': 'screen and (max-width: 479px)',
+  'md': 'screen and (max-width: 959px)',
+  'lg': 'screen and (max-width: 1047px)',
   'xl': 'screen and (max-width: 1199px)',
 ) !default;
 
 // @mixinの定義
-@mixin mq-up($breakpoint: sm) {
+@mixin mq-up($breakpoint: md) {
   @media #{map-get($breakpoint-up, $breakpoint)} {
     @content;
   }
 }
-
-@mixin mq-down($breakpoint: sm) {
+@mixin mq-down($breakpoint: md) {
   @media #{map-get($breakpoint-down, $breakpoint)} {
     @content;
   }
 }
+@include mq-down(){
+  .pc_only{
+    display: none;
+  }
+  .sp_only{
+    display: block;
+  }
+}
+@include mq-up(){
+  .pc_only{
+    display: block;
+  }
+  .sp_only{
+    display: none;
+  }
+}
 
-@mixin aspect($aspct:66%){
+@mixin container($contentWidth:1110px) {
+  width: $contentWidth;
+  margin: auto;
+  @include mq-down(xl){
+    width: calc(100% - 60px);
+    padding: 0 30px;
+  }
+}
+
+@mixin col-list($col:3) {
+  display: flex;
+  flex-wrap: wrap;
+  &__item{
+    $margin: 12px;
+    margin-bottom: $margin;
+    margin-right: $margin;
+    width: calc( (100% - #{$margin} * ( #{$col} - 1 ) ) / #{$col});
+    &:nth-of-type(#{$col}n){
+      margin-right: 0;
+    }
+  }
+}
+
+@mixin aspect($aspct:75%){
   position: relative;
   width: 100%;
   &::before {
@@ -43,5 +79,22 @@ $breakpoint-down: (
     left: 0;
     bottom: 0;
     right: 0;
+  }
+}
+
+$fontColor:#000;
+$fontColorGold:#d2b071;
+$gray:#f4f4f4;
+
+body{
+  color: $fontColor!important;
+  a{
+    color: $fontColor;
+  }
+  p{
+    line-height: 1.8;
+  }
+  @include mq-down(){
+    font-size: 14px;
   }
 }
