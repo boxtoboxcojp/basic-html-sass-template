@@ -1,0 +1,47 @@
+// min-width
+$breakpoint-up: (
+  'xs': 'screen and (min-width: 330px)',
+  'sm': 'screen and (min-width: 576px)',
+  'md': 'screen and (min-width: 769px)',
+  'lg': 'screen and (min-width: 992px)',
+  'xl': 'screen and (min-width: 1200px)',
+) !default;
+
+// max-width
+$breakpoint-down: (
+  'xs': 'screen and (max-width: 329px)',
+  'sm': 'screen and (max-width: 575px)',
+  'md': 'screen and (max-width: 768px)',
+  'lg': 'screen and (max-width: 991px)',
+  'xl': 'screen and (max-width: 1199px)',
+) !default;
+
+// @mixinの定義
+@mixin mq-up($breakpoint: sm) {
+  @media #{map-get($breakpoint-up, $breakpoint)} {
+    @content;
+  }
+}
+
+@mixin mq-down($breakpoint: sm) {
+  @media #{map-get($breakpoint-down, $breakpoint)} {
+    @content;
+  }
+}
+
+@mixin aspect($aspct:66%){
+  position: relative;
+  width: 100%;
+  &::before {
+    content:"";
+    display: block;
+    padding-top: $aspct;
+  }
+  &__wrap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}
