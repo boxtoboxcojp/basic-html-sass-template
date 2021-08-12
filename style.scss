@@ -1,2 +1,100 @@
 @import url('assets/scss/reset.css');
-@import url('assets/scss/_general');
+// min-width
+$breakpoint-up: (
+  'sm': 'screen and (min-width: 480px)',
+  'md': 'screen and (min-width: 960px)',
+  'lg': 'screen and (min-width: 1048px)',
+  'xl': 'screen and (min-width: 1200px)',
+) !default;
+
+// max-width
+$breakpoint-down: (
+  'sm': 'screen and (max-width: 479px)',
+  'md': 'screen and (max-width: 959px)',
+  'lg': 'screen and (max-width: 1047px)',
+  'xl': 'screen and (max-width: 1199px)',
+) !default;
+
+// @mixinの定義
+@mixin mq-up($breakpoint: md) {
+  @media #{map-get($breakpoint-up, $breakpoint)} {
+    @content;
+  }
+}
+@mixin mq-down($breakpoint: md) {
+  @media #{map-get($breakpoint-down, $breakpoint)} {
+    @content;
+  }
+}
+@include mq-down(){
+  .pc_only{
+    display: none;
+  }
+  .sp_only{
+    display: block;
+  }
+}
+@include mq-up(){
+  .pc_only{
+    display: block;
+  }
+  .sp_only{
+    display: none;
+  }
+}
+
+@mixin container($contentWidth:1110px) {
+  width: $contentWidth;
+  margin: auto;
+  @include mq-down(xl){
+    width: calc(100% - 60px);
+    padding: 0 30px;
+  }
+}
+
+@mixin col-list($col:3) {
+  display: flex;
+  flex-wrap: wrap;
+  &__item{
+    $margin: 12px;
+    margin-bottom: $margin;
+    margin-right: $margin;
+    width: calc( (100% - #{$margin} * ( #{$col} - 1 ) ) / #{$col});
+    &:nth-of-type(#{$col}n){
+      margin-right: 0;
+    }
+  }
+}
+
+@mixin aspect($aspct:75%){
+  position: relative;
+  width: 100%;
+  &::before {
+    content:"";
+    display: block;
+    padding-top: $aspct;
+  }
+  &__wrap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}
+
+$fontColor:#000;
+
+a{
+    color: $fontColor;
+}
+
+body{
+  color: $fontColor!important;
+  p{
+    line-height: 1.8;
+  }
+  @include mq-down(){
+    font-size: 14px;
+  }
+}
