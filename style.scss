@@ -88,6 +88,10 @@ $fontColor:#000;
 a{
     color: $fontColor;
 }
+img{
+    max-width: 100%;
+    height: auto;
+}
 
 body{
   color: $fontColor!important;
